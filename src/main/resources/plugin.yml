@@ -1,0 +1,42 @@
+name: VaroPlugin
+main: dev.varo.VaroPlugin
+version: 1.0.0
+description: Minecraft VARO for 1.7.10
+load: POSTWORLD
+commands:
+  varo:
+    description: Admin command for the VARO game
+    usage: /varo help
+  team:
+    description: Team management
+    usage: /team <create|invite|accept|leave|kick|disband|list|info|chat>
+  tc:
+    description: Team chat
+    usage: /tc <message>
+    aliases: [teamchat]
+  strike:
+    description: Give a player a strike
+    usage: /strike <player> <reason...>
+  strikes:
+    description: Show strikes
+    usage: /strikes [player]
+  unstrike:
+    description: Remove a strike
+    usage: /unstrike <player> [index]
+  playtime:
+    description: Show your remaining play time today
+    usage: /playtime
+    aliases: [vtime]
+permissions:
+  varo.admin:
+    description: Use /varo and join at any time
+    default: op
+  varo.strike:
+    description: Use strike commands
+    default: op
+  varo.bypass:
+    description: Not a participant - no time limit, no border, no PvP rules (for staff)
+    default: false
+  varo.team:
+    description: Use /team and /tc
+    default: true

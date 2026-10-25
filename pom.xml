@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dev.varo</groupId>
+  <artifactId>VaroPlugin</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+  <dependencies>
+    <!-- Put your spigot-1.7.10 (or craftbukkit-1.7.10) server jar into ./lib/ -->
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot</artifactId>
+      <version>1.7.10</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/spigot-1.7.10.jar</systemPath>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>VaroPlugin</finalName>
+    <resources>
+      <resource><directory>src/main/resources</directory></resource>
+    </resources>
+  </build>
+</project>

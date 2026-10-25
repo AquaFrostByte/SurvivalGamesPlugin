@@ -1,0 +1,253 @@
+# ============================================================================
+#  VARO plugin for Minecraft 1.7.10 - everything is configurable here.
+#  Colors: use &-codes. Keep scoreboard lines under ~28 visible characters.
+#  Keep this file ASCII (use \uXXXX escapes for symbols).
+#  Staff who must NOT take part in the match need the permission varo.bypass.
+# ============================================================================
+general:
+  prefix: "&8[&6VARO&8] &7"
+  world: "world"                    # world used for scatter
+  save-interval-seconds: 60
+
+game:
+  countdown-seconds: 30
+  countdown-announce: [60, 30, 20, 10, 5, 4, 3, 2, 1]
+  countdown-sound: "NOTE_PLING"
+  start-sound: "ENDERDRAGON_GROWL"
+  win-sound: "LEVEL_UP"
+  auto-scatter-on-start: true       # /varo start scatters automatically if not done yet
+  auto-solo-teams: true             # players without a team get a 1-man team on scatter
+  deny-non-participants: true       # after start, only participants/staff can join
+
+time:
+  daily-minutes: 15
+  one-session-per-day: false        # true = leaving ends your time for today
+  reset-mode: FIXED_TIME            # FIXED_TIME (real clock) or MANUAL (/varo nextday)
+  reset-time: "00:00"
+  timezone: "SYSTEM"                # SYSTEM or e.g. Europe/Berlin
+  manual-reset-text: "the next VARO day"
+  warnings-seconds: [300, 120, 60, 30, 10, 5, 4, 3, 2, 1]
+  warning-sound: "NOTE_PLING"
+  play-window:
+    enabled: false                  # players may only play between start and end
+    start: "18:00"
+    end: "22:00"
+    kick-at-end: true
+
+spawn:
+  scatter-radius: 800
+  min-team-distance: 100
+  max-attempts: 60
+  clear-inventory: true
+  dome:
+    enabled: true
+    radius: 4
+    material: GLASS
+
+grace:                              # Schutzzeit - PvP disabled
+  enabled: true
+  unit: DAYS                        # DAYS or MINUTES
+  amount: 2                         # DAYS: PvP on from day amount+1 | MINUTES: after the game started
+
+border:
+  enabled: true
+  center-x: 0
+  center-z: 0
+  start-size: 2000                  # side length on day 1
+  shrink-per-day: 150
+  min-size: 200
+  custom-sizes: {}                  # override single days, e.g.  {5: 800, 6: 600}
+  wall: true                        # true = can't walk out; false = only damage
+  damage-per-second: 2.0            # damage outside the border (0 = off)
+  message-interval-seconds: 5
+  apply-to-nether: true
+  nether-scale: 8
+  block-teleport-outside: true      # ender pearls out of the border
+  visual:
+    enabled: true
+    distance: 8
+    effect: MOBSPAWNER_FLAMES
+
+dimensions:
+  nether-unlock-day: 3
+  end-unlock-day: 6
+
+death:
+  mode: BAN                         # BAN (kicked + can't rejoin) or SPECTATOR (emulated, 1.7.10 has no spectator mode)
+  lightning: true
+  sound: AMBIENCE_THUNDER
+  kick-delay-ticks: 40
+  keep-inventory: false
+  spectator:
+    invisible: true
+    hide-from-players: true
+
+teams:
+  max-size: 2
+  max-name-length: 12
+  friendly-fire: false
+  lock-after-scatter: true          # no team changes once players were scattered
+  invite-expire-seconds: 60
+  nametag-colors: true
+  chat-format: "&8[&b%team%&8] &f%player%&7: &f%message%"
+  colors: [RED, BLUE, GREEN, YELLOW, AQUA, LIGHT_PURPLE, GOLD, DARK_GREEN, DARK_AQUA, DARK_PURPLE, DARK_RED, WHITE]
+
+combat:
+  enabled: true
+  tag-seconds: 15
+  mode: NPC                         # NPC (villager stays), KILL (instant death) or NONE
+  npc-lifetime-seconds: 60
+  apply-on-time-expiry: true        # being kicked by the time limit while tagged counts as combat log
+  block-commands: true
+  allowed-commands: [tc, msg, tell, r, team]
+
+scoreboard:
+  enabled: true
+  title: "&6&lVARO"
+  below-name-health: true
+  below-name-label: "&c\u2764"
+  # Placeholders: %day% %time% %reset% %border% %nextborder% %safe% %players% %teams%
+  #               %grace% %combat% %mates%   (empty results are skipped; "" = spacer)
+  lines:
+    - "&7Day: &f%day%"
+    - ""
+    - "&eTime left: &f%time%"
+    - "&eBorder: &f%border%"
+    - "&7Next day: &f%nextborder%"
+    - "%safe%"
+    - ""
+    - "&aPlayers: &f%players%"
+    - "&aTeams: &f%teams%"
+    - "%grace%"
+    - "%combat%"
+    - "%mates%"
+  safe-text: "&a\u2714 Safe tomorrow"
+  unsafe-text: "&c\u2718 Move! %dist%m"
+  grace-active: "&bGrace: &f%left%"
+  grace-over: "&cPvP enabled"
+  combat-text: "&cCombat: &f%time%s"
+  mate-line: "&c\u2764 &f%name% &c%health%"
+  mate-offline: "&7%name% (offline)"
+  mate-dead: "&7%name% (dead)"
+
+nerfs:
+  disabled-crafting: ["GOLDEN_APPLE:1"]      # MATERIAL or MATERIAL:data
+  disabled-consume: ["GOLDEN_APPLE:1"]
+  potions:
+    enabled: true
+    max-amplifier: 0                          # 0 = only level I (blocks Strength II, Speed II ...), -1 = off
+    blocked-effects: []                       # e.g. [INCREASE_DAMAGE, REGENERATION]
+    blocked-brew-ingredients: [GLOWSTONE_DUST]
+  enchantments:
+    enabled: true
+    default-max-level: 0                      # 0 = vanilla
+    max-levels:
+      DAMAGE_ALL: 3                           # Sharpness III max (names: Bukkit enchantment names)
+    disabled: []
+
+anti-portal-trap:
+  enabled: true
+  radius: 4
+  blocked-blocks: [LAVA, OBSIDIAN]
+
+strikes:
+  max: 3                                      # 0 = never eliminate
+  time-penalty-minutes: 0                     # removed from today's remaining time per strike
+
+trophy:
+  enabled: true
+  only-pvp: true
+  name: "&6%player%'s Head"
+  lore: ["&7Killed by &c%killer%"]
+  unknown-killer: "unknown"
+
+messages:
+  no-permission: "&cYou don't have permission."
+  player-only: "&cOnly players can use this."
+  unknown-player: "&cUnknown player: &f%player%"
+  usage: "&cUsage: &f%usage%"
+  game-already-running: "&cThe game is already running or has ended."
+  countdown-running: "&cA countdown is already running."
+  need-scatter: "&cScatter the players first (/varo scatter)."
+  scatter-bad-state: "&cScatter is only possible before the countdown."
+  scatter-no-world: "&cWorld '%world%' not found - check general.world."
+  scatter-offline: "&cThese team members are offline: &f%players%"
+  scatter-no-team: "&cThese players have no team: &f%players%"
+  scatter-no-teams: "&cThere is nobody to scatter."
+  scatter-done: "&aScattered &f%teams% &ateams. Players are frozen until the start."
+  countdown: "&eVARO starts in &6%time% &eseconds!"
+  countdown-started: "&aCountdown started."
+  countdown-aborted: "&cStart countdown aborted."
+  game-start: "&a&lVARO has started! &7Good luck!"
+  game-reset: "&aGame data reset."
+  not-running: "&cThe game is not running."
+  new-day: "&6&lDay %day% &7begins! Border: &f%size% &7| next day: &f%next%"
+  pvp-enabled: "&c&lPvP is now enabled!"
+  nether-unlocked: "&6The Nether is now open!"
+  end-unlocked: "&6The End is now open!"
+  dimension-locked: "&cThis dimension opens on day %day%."
+  grace-no-pvp: "&cPvP is disabled right now."
+  friendly-fire: "&cYou can't hurt your teammate."
+  time-warning: "&eYou have &6%time% &eplay time left today!"
+  time-info: "&7Time left: &f%time% &7| Day &f%day% &7| Reset in &f%reset%"
+  kick-time-over: "&cYour daily play time is over!\n&7Come back in &f%reset%"
+  login-time-over: "&cYour play time for today is over.\n&7Resets in: &f%reset%"
+  login-window-closed: "&cThe play window is closed.\n&7Open from &f%start% &7to &f%end%"
+  kick-window-closed: "&cThe play window has ended.\n&7Open from &f%start% &7to &f%end%"
+  login-dead: "&c&lYou are eliminated.\n&7%reason%"
+  login-not-participant: "&cVARO is running and you are not a participant."
+  kick-dead: "&c&lYou have been eliminated!\n&7%reason%"
+  death-broadcast: "&4\u2620 &c%message% &8(&7%teams% teams / %players% players left&8)"
+  combatlog-death: "%player% logged out during combat"
+  combatlog-npc-death: "%player%'s combat-log NPC was killed"
+  combatlog-broadcast: "&c%player% logged out in combat!"
+  combatlog-npc: "&c%player% logged out in combat! Their NPC stays for &f%seconds%s&c."
+  combat-tagged: "&cYou are in combat! Don't log out (&f%time%s&c)."
+  combat-ended: "&aYou are no longer in combat."
+  combat-command: "&cYou can't use this command in combat."
+  win: "&6&l%team% &ewon VARO! &7(%members%)"
+  win-none: "&eNobody survived. VARO is over."
+  border-warning: "&cYou are outside the border! Get back inside!"
+  border-wall: "&cYou can't leave the border."
+  teleport-border: "&cYou can't teleport outside the border."
+  anti-portal: "&cYou can't place that near a Nether portal."
+  nerf-crafting: "&cThis item can't be crafted."
+  nerf-consume: "&cThis item is disabled."
+  nerf-potion: "&cThis potion is too strong and disabled."
+  nerf-enchant: "&cThis enchantment level is not allowed."
+  spectator-info: "&7You are a spectator now."
+  spectator-chat: "&8[&7Dead&8] &7%player%: %message%"
+  team-none: "&cYou are not in a team."
+  team-already: "&cYou are already in a team."
+  team-locked: "&cTeams are locked."
+  team-bad-name: "&cInvalid name (letters/numbers/_ , max %max% chars)."
+  team-exists: "&cThis team already exists."
+  team-created: "&aTeam &f%team% &acreated."
+  team-not-found: "&cTeam not found."
+  team-full: "&cThe team is full."
+  team-leader-only: "&cOnly the team leader can do this."
+  team-invite-sent: "&aInvited &f%player%&a."
+  team-invited: "&f%leader% &7invited you to team &b%team%&7. Use &f/team accept"
+  team-invite-none: "&cYou have no (valid) invitation."
+  team-target-busy: "&c%player% is already in a team."
+  team-joined: "&a%player% joined the team."
+  team-left: "&e%player% left the team."
+  team-kicked: "&c%player% was removed from the team."
+  team-disbanded: "&cTeam disbanded."
+  team-list-header: "&6Teams:"
+  team-list-entry: "&b%team% &7(%size%): &f%members%"
+  team-info: "&b%team% &7- leader &f%leader% &7- members: &f%members%"
+  team-help: "&7/team create|invite|accept|leave|kick|disband|list|info|chat"
+  strike-added: "&c%player% received strike &f%count%/%max%&c: &f%reason%"
+  strike-player: "&cYou received a strike: &f%reason% &7(%count%/%max%)"
+  strike-eliminated: "%player% reached the strike limit"
+  strike-list-header: "&6Strikes of &f%player%&6:"
+  strike-list-entry: "&7#%index% &f%reason% &8(by %by%)"
+  strike-none: "&7No strikes."
+  strike-removed: "&aRemoved a strike from &f%player%&a."
+  revive-ok: "&a%player% was revived."
+  revive-not-dead: "&c%player% is not eliminated."
+  time-set: "&aTime left for &f%player%&a: &f%time%"
+  day-set: "&aNow day &f%day%&a."
+  admin-done: "&aDone."
+  admin-error: "&c%error%"
